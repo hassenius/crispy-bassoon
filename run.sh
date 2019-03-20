@@ -28,6 +28,6 @@ export portfolio_name
 export org_name
 
 # Extrapolate the namespace
-export NAMESPACE="${organisation}-${portfolio_name}"
+export NAMESPACE="${org_name}-${portfolio_name}"
 
 bats endtoend.bats
