@@ -5,9 +5,9 @@ import os
 import json
 import sys
 envUrl = "https://ng-onboard.staging.echonet/"
-orgmanagerpassword = ''
-orgmanagerid = ''
-
+orgmanagerpassword = os.getenv('org_mngr_pass', '')
+orgmanagerid = os.getenv('org_mngr_user', '')
+portfolio_name = os.getenv('portfolio_name', '')
 ############################################################################ Start of preparation of Fonctions #############################################################################################
 
 def login(user=None, password=None):
@@ -83,7 +83,7 @@ print("################ Lets create the PP ####################")
 print("########################################################")
 ppToCreate = {
     "environment": "Homol",
-    "createppname": "pp-for-hans-test",
+    "createppname": portfolio_name,
     "createppmemoryLimit": "1.6",
     "createppcpuLimit": "2",
     "createpppvcStorageClass": "97.3",
