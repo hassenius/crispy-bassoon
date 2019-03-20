@@ -19,10 +19,7 @@ function create_environment() {
 
 function destroy_environment() {
   # Delete portfolio expects the environment variables
-  # 1.
-  # 2.
-  # 3.
-  #python libs/delete_portfolio.py
+  python ${APP_ROOT}/libs/kill-the-thing.py
   return 0
 }
 
