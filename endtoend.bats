@@ -23,6 +23,14 @@ function destroy_environment() {
   return 0
 }
 
+##### Start test definitions #########
+@test "Namespace has been created" {
+  kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=orgmanager"
+  $kube get ns | grep ${NAMESPACE}
+
+  [[ $? -eq 0 ]]
+}
+
 @test "Team admin cant list pods in kube-system" {
   kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=orgmanager"
   $kube get pods
