@@ -33,7 +33,7 @@ function destroy_environment() {
 
 @test "Team admin cant list pods in kube-system" {
   kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=teamoperator"
-  $kube get pods
+  run $kube get pods -n kube-system
 
-  [[ $? -gt 0 ]]
+  [[ ${lines[1]} =~ "Forbidden" ]]
 }
