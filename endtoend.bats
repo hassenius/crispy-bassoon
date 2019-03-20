@@ -9,8 +9,8 @@ function create_environment() {
 
   # If we succeeded in creating the portfolio, we can setup kubectl
   if [[ $ret_val -eq 0 ]]; then
-    auth_and_create_context ${org_mngr_user} ${org_mngr_pass} orgmanager
-    auth_and_create_context ${team_op_user} ${team_op_pass} teamoperator
+    auth_and_create_context "${org_mngr_user}" "${org_mngr_pass}" orgmanager
+    auth_and_create_context "${team_op_user}" "${team_op_pass}" teamoperator
   fi
 
   return $ret_val
@@ -32,7 +32,7 @@ function destroy_environment() {
 }
 
 @test "Team admin cant list pods in kube-system" {
-  kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=orgmanager"
+  kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=teamoperator"
   $kube get pods
 
   [[ $? -gt 0 ]]
