@@ -23,11 +23,9 @@ function destroy_environment() {
   return 0
 }
 
-@test "mocktest" {
+@test "Team admin cant list pods in kube-system" {
   kube="kubectl --kubeconfig=${BATS_TMPDIR}/kubeconfig --context=orgmanager"
   $kube get pods
 
-  kubectl get pods
-
-  [[ 1 -eq 1 ]]
+  [[ $? -gt 0 ]]
 }
