@@ -6,3 +6,4 @@
 export KUBE_APISERVER_PORT=${KUBE_APISERVER_PORT:-8001}
 export SERVER=${SERVER:-cloudngh02.staging.echonet}
 export ONBOARD_SERVER=${ONBOARD_SERVER:-ng-onboard.staging.echonet}
+export ON_SETUP_FAIL=${ON_SETUP_FAIL:-failfirst}

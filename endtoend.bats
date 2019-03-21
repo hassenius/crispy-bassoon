@@ -22,17 +22,17 @@ function create_environment() {
 
 
 function destroy_environment() {
+  # Nodeport cleaning
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-deployment.yml
+  # Ingress cleaning
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-ingress.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-deployment.yml
+
   # Delete portfolio expects the environment variables
   python ${APP_ROOT}/libs/kill-the-thing.py
-  
-  # Nodeport cleaning
-  kubectl delete --ignore-not-found=true -f ${nodeport_dir}/nginx-service.yml
-  kubectl delete --ignore-not-found=true -f ${nodeport_dir}/nginx-deployment.yml
-  # Ingress cleaning
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-ingress.yml
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-service.yml
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-deployment.yml
-  
+
   return 0
 }
 
@@ -54,9 +54,9 @@ function destroy_environment() {
 @test "Deploy a nodeport svc" {
 
   skip "Nodeport can't be tested outside l1c network"
-  kubectl create -f ${nodeport_dir}/nginx-deployment.yml
+  kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-deployment.yml
   [[ $? -eq 0 ]]
-  kubectl create -f ${nodeport_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-service.yml
   [[ $? -eq 0 ]]
 
   vip_proxy=10.241.173.13
@@ -66,8 +66,8 @@ function destroy_environment() {
 
   [[ $? -eq 0 ]]
 
-  kubectl delete --ignore-not-found=true -f ${nodeport_dir}/nginx-service.yml
-  kubectl delete --ignore-not-found=true -f ${nodeport_dir}/nginx-deployment.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-deployment.yml
 }
 
 
@@ -75,11 +75,11 @@ function destroy_environment() {
 @test "Deploy an ingress svc" {
 
   skip "Vip unreachable"
-  kubectl create -f ${ingress_dir}/nginx-deployment.yml
+  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-deployment.yml
   [[ $? -eq 0 ]]
-  kubectl create -f ${ingress_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-service.yml
   [[ $? -eq 0 ]]
-  kubectl create -f ${ingress_dir}/nginx-ingress.yml
+  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-ingress.yml
   [[ $? -eq 0 ]]
 
   ingress_URL="nginx-test-bats.ngh02.staging.echonet"
@@ -87,7 +87,7 @@ function destroy_environment() {
   curl ${ingress_URL}
   [[ $? -eq 0 ]]
 
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-ingress.yml
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-service.yml
-  kubectl delete --ignore-not-found=true -f ${ingress_dir}/nginx-deployment.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-ingress.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-service.yml
+  kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-deployment.yml
 }
