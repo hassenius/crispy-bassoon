@@ -36,4 +36,4 @@ export HELM_HOME=~/.helm
 echo "Q" | openssl s_client -connect ${SERVER}:8443 2>&1 |sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $HELM_HOME/ca.pem
 
 
-bats endtoend.bats
+bats endtoend.bats helm_tests.bats
