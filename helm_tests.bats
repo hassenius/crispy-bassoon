@@ -5,7 +5,7 @@ load ${APP_ROOT}/libs/sequential-helpers.bash
 
 destroy_environment() {
 
-  helm delete $(helm list --tls| grep cloudng-nginx-nodeport-1.1| awk '{print $1}') --tls
+  helm delete --purge $(helm list --tls| grep cloudng-nginx-nodeport-1.1| awk '{print $1}') --tls
 
   cloudctl catalog delete-helm-chart --name cloudng-nginx-nodeport --repo local-charts
 
