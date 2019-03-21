@@ -33,7 +33,7 @@ destroy_environment() {
 
 @test "Deploy using helm charts : load charts" {
 
-  run cloudctl catalog load-helm-chart --archive ${APP_ROOT}/cloudng-nginx-nodeport-1.1.tgz --repo local-charts
+  run cloudctl catalog load-helm-chart --archive ${APP_ROOT}/helm/cloudng-nginx-nodeport-1.1.tgz --repo local-charts
 
   # If this test fails we want to skip subsequent tests
   if [[ ${status} -gt 0 ]]; then
