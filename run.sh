@@ -5,6 +5,9 @@ export APP_ROOT="$(dirname "$($(type -p greadlink readlink | head -1) -f  "$BASH
 
 # Get defaults
 source ${APP_ROOT}/defaults.sh
+if [[ -f ${APP_ROOT}/custom-defaults.sh ]]; then
+  source ${APP_ROOT}/custom-defaults.sh
+fi
 
 # Ensure we have the prereq settings
 [[ -z ${org_name} ]] && read -t 60 -p "Organisation name: " org_name
