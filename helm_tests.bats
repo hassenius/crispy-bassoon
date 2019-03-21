@@ -86,7 +86,7 @@ destroy_environment() {
   }
 
   _attempt=1
-  while ! pod_ready && [[ $_timeout -gt $(( $_attempt * ${sleeptime} )) ]]; do
+  while ! pod_ready && [[ $timeout -gt $(( $_attempt * ${sleeptime} )) ]]; do
     sleep ${sleeptime}
     _attempt=$(($_attempt+1))
   done
