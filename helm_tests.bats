@@ -77,8 +77,8 @@ destroy_environment() {
   timeout=120
   sleeptime=5
   function pod_ready() {
-    status=$(kubectl get pods | grep myapp-front-deployment | awk '{print $3}')
-    if [[ "$status" == "Running" ]]; then
+    status=$(kubectl get pods | grep myapp-front-deployment)
+    if [[ "$status" =~ "Running" ]]; then
       return 0
     else
       return 1
@@ -91,6 +91,6 @@ destroy_environment() {
     _attempt=$(($_attempt+1))
   done
 
-  status=$(kubectl get pods | grep myapp-front-deployment | awk '{print $3}')
-  [[ "$status" == "Running" ]]
+  status=$(kubectl get pods | grep myapp-front-deployment)
+  [[ "$status" =~ "Running" ]]
 }
