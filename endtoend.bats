@@ -54,17 +54,18 @@ function destroy_environment() {
 @test "Deploy a nodeport svc" {
 
   skip "Nodeport can't be tested outside l1c network"
-  kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-deployment.yml
-  [[ $? -eq 0 ]]
-  kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-service.yml
-  [[ $? -eq 0 ]]
+  run kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-deployment.yml
+  [[ $result -eq 0 ]]
+  run kubectl -n ${NAMESPACE} create -f ${nodeport_dir}/nginx-service.yml
+  [[ $result -eq 0 ]]
 
   vip_proxy=10.241.173.13
   svc_name="myapp-nginx-service-bats-testing"
   nodeport=$(kubectl get svc ${svc_name} -o jsonpath={..nodePort})
-  curl ${vip_proxy}:${nodeport}
+  run curl ${vip_proxy}:${nodeport}
 
-  [[ $? -eq 0 ]]
+  [[ $result -eq 0 ]]
+  [[ $output =~ "NGINX" ]]
 
   kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-service.yml
   kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${nodeport_dir}/nginx-deployment.yml
@@ -75,17 +76,17 @@ function destroy_environment() {
 @test "Deploy an ingress svc" {
 
   skip "Vip unreachable"
-  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-deployment.yml
-  [[ $? -eq 0 ]]
-  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-service.yml
-  [[ $? -eq 0 ]]
-  kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-ingress.yml
-  [[ $? -eq 0 ]]
+  run kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-deployment.yml
+  [[ $result -eq 0 ]]
+  run kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-service.yml
+  [[ $result -eq 0 ]]
+  run kubectl -n ${NAMESPACE} create -f ${ingress_dir}/nginx-ingress.yml
+  [[ $result -eq 0 ]]
 
   ingress_URL="nginx-test-bats.ngh02.staging.echonet"
 
-  curl ${ingress_URL}
-  [[ $? -eq 0 ]]
+  run curl ${ingress_URL}
+  [[ $result -eq 0 ]]
 
   kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-ingress.yml
   kubectl -n ${NAMESPACE} delete --ignore-not-found=true -f ${ingress_dir}/nginx-service.yml
