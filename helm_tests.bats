@@ -65,9 +65,10 @@ destroy_environment() {
 
 @test "Deploy using helm charts : release deployed" {
 
-  run helm list --tls | grep cloudng-nginx-nodeport-1.1
+  deployment=$(helm list --tls | grep cloudng-nginx-nodeport-1.1)
 
-  [[ "${lines[0]}" =~ "DEPLOYED" ]]
+
+  [[ "${deployment}" =~ "DEPLOYED" ]]
 
 }
 
