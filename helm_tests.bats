@@ -14,19 +14,18 @@ destroy_environment() {
 
 @test "Deploy using helm charts : adding cluster repo" {
 
-  helm repo add testrepo https://${SERVER}:8443/helm-repo/charts --ca-file $HELM_HOME/ca.pem --cert-file $HELM_HOME/cert.pem --key-file $HELM_HOME/key.pem
-  retval=$?
+  run helm repo add testrepo https://${SERVER}:8443/helm-repo/charts --ca-file $HELM_HOME/ca.pem --cert-file $HELM_HOME/cert.pem --key-file $HELM_HOME/key.pem
 
   # If this test fails we want to skip subsequent tests
-  if [[ ${retval} -gt 0 ]]; then
+  if [[ ${status} -gt 0 ]]; then
     skip_subsequent
   fi
 
-  [[ ${retval} -eq 0 ]]
+  [[ ${status} -eq 0 ]]
 
-  helm repo update
+  run helm repo update
 
-  [[ $? -eq 0 ]]
+  [[ ${status} -eq 0 ]]
 
 }
 
@@ -34,15 +33,14 @@ destroy_environment() {
 
 @test "Deploy using helm charts : load charts" {
 
-  cloudctl catalog load-helm-chart --archive cloudng-nginx-nodeport-1.1.tgz --repo local-charts
-  retval=$?
+  run cloudctl catalog load-helm-chart --archive ${APP_ROOT}/cloudng-nginx-nodeport-1.1.tgz --repo local-charts
 
   # If this test fails we want to skip subsequent tests
-  if [[ ${retval} -gt 0 ]]; then
+  if [[ ${status} -gt 0 ]]; then
     skip_subsequent
   fi
 
-  [[ ${retval} -eq 0 ]]
+  [[ ${status} -eq 0 ]]
 
 }
 
@@ -50,15 +48,14 @@ destroy_environment() {
 
 @test "Deploy using helm charts : install release" {
 
-  helm install testrepo/cloudng-nginx-nodeport --tls
-  retval=$?
+  run helm install testrepo/cloudng-nginx-nodeport --tls
 
   # If this test fails we want to skip subsequent tests
-  if [[ ${retval} -gt 0 ]]; then
+  if [[ ${status} -gt 0 ]]; then
     skip_subsequent
   fi
 
-  [[ ${retval} -eq 0 ]]
+  [[ ${status} -eq 0 ]]
 
 }
 
