@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  name: myapp-nginx-ingress
+ 
+spec:
+  rules:
+  - host: nginx-test-bats.ngh02.staging.echonet
+    http:
+      paths:
+      - backend:
+          serviceName: ingress-nginx-service-bats-testing
+          servicePort: 8080
+  tls:
+  - hosts:
+    - nginx-test-bats.ngh02.staging.echonet
