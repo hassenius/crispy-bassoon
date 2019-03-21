@@ -48,6 +48,10 @@ destroy_environment() {
 
 @test "Deploy using helm charts : install release" {
 
+  run helm repo update
+
+  [[ ${status} -eq 0 ]]
+
   run helm install testrepo/cloudng-nginx-nodeport --tls
 
   # If this test fails we want to skip subsequent tests
