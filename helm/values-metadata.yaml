@@ -1,0 +1,69 @@
+Ecs:
+  appname:
+    __metadata:
+      name: "Ecs App Name"
+      label: "Service Name"
+      description: "This field (1 to 3 character, Alphanumérique in lowercase) will identify your Bucket and User in your application"
+      type: "string"
+      required: true
+      validation: "^[a-z0-9]{1,3}$"
+  
+  service: 
+    __metadata:
+      name: "Service Name"
+      label: "Service Name"
+      description: "Name of the service"
+      type: "string"
+      required: true
+  deployment:
+    __metadata:
+      name: "Deployment Name"
+      label: "Deployment Name"
+      description: "Name of the deployment"
+      type: "string"
+      required: true
+  port:
+    __metadata:
+      name: "Port"
+      label: "Port"
+      description: "Port used in the container and pod"
+      type: "string"
+      required: true
+      validation: "^[0-9]{3,5}$"
+  app:
+    __metadata:
+      name: "Application Name"
+      label: "Application Name"
+      description: "Name of the application"
+      type: "string"
+      required: true
+  codeapp:
+    __metadata:
+      name: "Application code"
+      label: "Application code"
+      description: "Code-app associated"
+      type: "string"
+      required: true
+  component:
+    __metadata:
+      name: "Component Name"
+      label: "Component Name"
+      description: "Name of the component"
+      type: "string"
+      required: true
+  env:
+    __metadata:
+      name: "Environment Name"
+      label: "Environment Name"
+      description: "Name of the environment"
+      type: "string"
+      hidden: true
+      immutable: true
+      required: true
+  function:
+    __metadata:
+      name: "Function Name"
+      label: "Function Name"
+      description: "Name of the function"
+      type: "string"
+      required: true

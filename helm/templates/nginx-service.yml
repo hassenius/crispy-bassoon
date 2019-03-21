@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.clounginx.service }}
+
+spec:
+
+  ports:
+  - port: {{ .Values.clounginx.port }}
+    protocol: TCP
+    targetPort: {{ .Values.clounginx.port }}
+  selector:
+    app: {{ .Values.clounginx.app }}
+    code-app: {{ .Values.clounginx.codeapp }}
+    component: {{ .Values.clounginx.component }}
+    env: {{ .Values.clounginx.env}}
+    function: {{ .Values.clounginx.function }}
+    tier: P
+  sessionAffinity: None
+  type: NodePort
+
