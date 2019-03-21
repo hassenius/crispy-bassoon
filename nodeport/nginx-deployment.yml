@@ -1,0 +1,122 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: myapp-front
+    code-app: AP24034
+    component: myapp-front
+    env: testNginxSvcDeployment
+    function: myapp-front
+    tier: P
+  name: myapp-front-deployment
+
+spec:
+  replicas: 1
+
+  template:
+    metadata:
+      labels:
+        app: myapp-front
+        code-app: AP24034
+        component: myapp-front
+        env: testNginxSvcDeployment
+        function: myapp-front
+        tier: P
+
+    spec:
+      containers:
+      - image: cloudngh02.staging.echonet:8500/bnpp-cloudng-bp2i/nginx
+        imagePullPolicy: IfNotPresent
+        name: nginx-container
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 200Mi
+          requests:
+            cpu: 200m
+            memory: 100Mi
+        securityContext:
+          runAsUser: 101
+          runAsGroup: 101
+        volumeMounts:
+        - mountPath: /var/log/nginx
+          name: nginx-logs
+        - mountPath: /var/tmp
+          name: nginx-tmp
+        - mountPath: /var/cache/nginx
+          name: nginx-cache
+        - mountPath : /etc/nginx/conf.d
+          name: nginx-default-conf
+        - mountPath: /var/run/
+          name: nginx-varrun
+      volumes:
+      - emptyDir: {}
+        name: nginx-tmp
+      - emptyDir: {}
+        name: nginx-logs
+      - emptyDir: {}
+        name: nginx-cache
+      - emptyDir: {}
+        name: nginx-varrun
+      - name: nginx-default-conf
+        configMap:
+          defaultMode: 420
+          name: nginxconf
+---
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    default.conf: |2
+
+      server {
+          listen       8080;
+          server_name  localhost;
+
+          #charset koi8-r;
+          #access_log  /var/log/nginx/host.access.log  main;
+
+          location / {
+              root   /usr/share/nginx/html;
+              index  index.html index.htm;
+          }
+
+          #error_page  404              /404.html;
+
+          # redirect server error pages to the static page /50x.html
+          #
+          error_page   500 502 503 504  /50x.html;
+          location = /50x.html {
+              root   /usr/share/nginx/html;
+          }
+
+          # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+          #
+          #location ~ \.php$ {
+          #    proxy_pass   http://127.0.0.1;
+          #}
+
+          # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+          #
+          #location ~ \.php$ {
+          #    root           html;
+          #    fastcgi_pass   127.0.0.1:9000;
+          #    fastcgi_index  index.php;
+          #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+          #    include        fastcgi_params;
+          #}
+
+          # deny access to .htaccess files, if Apache's document root
+          # concurs with nginx's one
+          #
+          #location ~ /\.ht {
+          #    deny  all;
+          #}
+      }
+  kind: ConfigMap
+  metadata:
+    name: nginxconf
+kind: List

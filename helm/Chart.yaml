@@ -1,0 +1,13 @@
+name: cloudng-nginx-nodeport
+version: 1.0
+appVersion: 1.0
+description: 
+keywords:
+- nginx
+- nodeport
+# sources:
+# - https://github.com/EMCECS
+maintainers:
+- name: CloudNG Team
+  email: test@test.com
+engine: gotpl

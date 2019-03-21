@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-nginx-service-bats-testing
+
+spec:
+
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: myapp-front
+    code-app: AP24034
+    component: myapp-front
+    env: testNginxSvcDeployment
+    function: myapp-front
+    tier: P
+  sessionAffinity: None
+  type: ClusterIP

@@ -1,0 +1,11 @@
+clounginx:
+  service: "myapp-nginx-service-bats-testing"
+  deployment: "myapp-front-deployment"
+  
+  port: "8080"
+
+  app: "myapp-front"
+  codeapp: ""
+  component: "myapp-front"
+  env: "testNginxSvcDeployment"
+  function: "myapp-front"
