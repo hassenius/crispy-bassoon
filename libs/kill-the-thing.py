@@ -4,7 +4,8 @@ import requests
 import os
 import json
 import sys
-envUrl = "https://ng-onboard.staging.echonet/"
+onboardserver = os.getenv('ONBOARD_SERVER')
+envUrl = "https://%s/" % onboardserver
 orgmanagerpassword = os.getenv('org_mngr_pass', '')
 orgmanagerid = os.getenv('org_mngr_user', '')
 portfolio_name = os.getenv('portfolio_name', '')

@@ -4,7 +4,8 @@ import requests
 import os
 import json
 import sys
-envUrl = "https://ng-onboard.staging.echonet/"
+onboardserver = os.getenv('ONBOARD_SERVER')
+envUrl = "https://%s/" % onboardserver
 orgmanagerpassword = os.getenv('org_mngr_pass', '')
 orgmanagerid = os.getenv('org_mngr_user', '')
 portfolio_name = os.getenv('portfolio_name', '')
@@ -84,11 +85,11 @@ print("########################################################")
 ppToCreate = {
     "environment": "Homol",
     "createppname": portfolio_name,
-    "createppmemoryLimit": "1",
-    "createppcpuLimit": "1",
-    "createpppvcStorageClass": "1",
-    "createppnodeport": "1",
-    "createppephemeralLimit": "1",
+    "createppmemoryLimit": "1.6",
+    "createppcpuLimit": "2",
+    "createpppvcStorageClass": "97.3",
+    "createppnodeport": "10",
+    "createppephemeralLimit": "0.1",
     "createppephemeralRequest": "0.025",
     "createppcpuRequest": "0.2",
     "createppmemoryRequest": "0.8",
